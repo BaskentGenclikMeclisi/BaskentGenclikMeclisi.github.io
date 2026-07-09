@@ -1,0 +1,13 @@
+Bu klasöre oyunda çalmasını istediğin fon müziğini koy.
+
+Dosyanın adı "muzik" olmalı; şu formatlardan biri kullanılabilir:
+  muzik.mp3   (önerilen)
+  muzik.wav
+  muzik.ogg
+  muzik.m4a
+
+Notlar:
+- Dosya yoksa oyun sessiz çalışır, ses düğmesi görünmez. Hiçbir şey bozulmaz.
+- Müzik "Oyunu Başlat" tıklanınca başlar ve döngü halinde çalar.
+- İnternette paylaşılacak bir oyun olduğu için telifsiz ya da lisansı uygun bir parça seçmeye dikkat et
+  (örnek kaynaklar: pixabay.com/music, incompetech.com).
