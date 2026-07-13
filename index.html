@@ -404,33 +404,73 @@
     margin-bottom: 18px;
   }
 
-  .avatar-ring {
-    width: 132px;
-    height: 132px;
-    margin: 0 auto 16px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-light), var(--primary));
-    padding: 5px;
-    box-shadow: 0 10px 26px rgba(68, 87, 163, .35);
+  /* Podyum */
+  .podium {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
   }
-  .avatar-inner {
-    width: 100%;
-    height: 100%;
+  .podium-spot {
+    flex: 1;
+    max-width: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(26px);
+    animation: podIn .55s cubic-bezier(.22, 1, .36, 1) forwards;
+  }
+  .podium-spot.third { animation-delay: .3s; }
+  .podium-spot.second { animation-delay: 1s; }
+  .podium-spot.first { animation-delay: 1.7s; }
+  @keyframes podIn { to { opacity: 1; transform: none; } }
+
+  .p-avatar {
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
     background: var(--bg);
-    border: 4px solid var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 56px;
+    font-size: 28px;
     overflow: hidden;
+    border: 3px solid #c0c7d1;
+    box-shadow: 0 6px 16px rgba(68, 87, 163, .22);
   }
-  .avatar-inner img {
+  .podium-spot.first .p-avatar { width: 84px; height: 84px; font-size: 38px; border-color: #f0c24b; }
+  .podium-spot.third .p-avatar { border-color: #d9a066; }
+  .p-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+  .p-name {
+    font-size: 11px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.2;
+    color: var(--text);
+    min-height: 26px;
+  }
+
+  .p-block {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    display: block;
+    border-radius: 12px 12px 0 0;
+    color: var(--white);
+    font-weight: 900;
+    font-size: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 7px;
+  }
+  .podium-spot.first .p-block { height: 92px; background: var(--primary); }
+  .podium-spot.second .p-block { height: 64px; background: var(--primary-light); }
+  .podium-spot.third .p-block { height: 48px; background: #93a0d6; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .podium-spot { opacity: 1; transform: none; animation: none; }
   }
 
   .result-title {
@@ -600,9 +640,7 @@
     <div class="result-hero">
       <img src="avatars/bgm_logo.jpeg" alt="Başkent Gençlik Meclisi" class="result-logo" onerror="this.style.display='none'">
       <div class="result-eyebrow">Meclisteki Rolün</div>
-      <div class="avatar-ring">
-        <div class="avatar-inner" id="result-avatar"></div>
-      </div>
+      <div class="podium" id="podium"></div>
       <div class="result-title" id="result-title"></div>
       <div class="rare-badge" id="rare-badge" hidden>Nadir rol — az kişide çıkıyor!</div>
       <p class="result-desc" id="result-desc"></p>
@@ -1014,9 +1052,44 @@ function computeResult() {
   return { winner: ranked[0], ranked, scores };
 }
 
+function podiumSpot(roleId, rank) {
+  const cls = ["first", "second", "third"][rank - 1];
+  const spot = document.createElement("div");
+  spot.className = `podium-spot ${cls}`;
+
+  const av = document.createElement("div");
+  av.className = "p-avatar";
+  av.textContent = ROLES[roleId].emoji;
+  const img = new Image();
+  img.src = `avatars/${roleId}.jpg`;
+  img.onload = () => { av.textContent = ""; av.appendChild(img); };
+  spot.appendChild(av);
+
+  const name = document.createElement("div");
+  name.className = "p-name";
+  name.textContent = ROLES[roleId].short;
+  spot.appendChild(name);
+
+  const block = document.createElement("div");
+  block.className = "p-block";
+  block.textContent = rank;
+  spot.appendChild(block);
+
+  return spot;
+}
+
+function buildPodium(ranked) {
+  const el = $("podium");
+  el.innerHTML = "";
+  // Görsel sıra: 2. — 1. — 3.
+  [[ranked[1], 2], [ranked[0], 1], [ranked[2], 3]].forEach(([rid, rank]) => {
+    if (rid) el.appendChild(podiumSpot(rid, rank));
+  });
+}
+
 function finishQuiz() {
   $("progress-fill").style.width = "100%";
-  const { winner } = computeResult();
+  const { winner, ranked } = computeResult();
   resultRoleId = winner;
   const role = ROLES[winner];
 
@@ -1024,18 +1097,16 @@ function finishQuiz() {
   $("rare-badge").hidden = !role.rare;
   $("result-desc").textContent = role.desc;
 
-  // Avatar: fotoğraf varsa göster, yoksa emoji
-  const avatarEl = $("result-avatar");
-  avatarEl.innerHTML = "";
+  // Kazananın fotoğrafını sonuç kartı için arka planda yükle
   avatarImg = null;
   const img = new Image();
   img.src = `avatars/${winner}.jpg`;
-  img.onload = () => { avatarEl.innerHTML = ""; avatarEl.appendChild(img); avatarImg = img; };
-  img.onerror = () => { avatarEl.textContent = role.emoji; };
-  avatarEl.textContent = role.emoji;
+  img.onload = () => { avatarImg = img; };
 
+  buildPodium(ranked);
   showScreen("result");
-  launchConfetti();
+  // Konfeti, 1.'nin podyuma çıktığı anda patlasın
+  setTimeout(launchConfetti, 1750);
 }
 
 /* ---------- Sharing ---------- */
