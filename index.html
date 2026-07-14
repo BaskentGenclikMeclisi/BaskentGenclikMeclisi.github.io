@@ -473,6 +473,28 @@
     .podium-spot { opacity: 1; transform: none; animation: none; }
   }
 
+  /* Halka grafiği */
+  .donut-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 18px 20px;
+    box-shadow: 0 8px 24px rgba(68, 87, 163, .12);
+    margin-bottom: 16px;
+  }
+  .donut-card h3 {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+  .donut-wrap { display: flex; align-items: center; gap: 18px; }
+  .donut-wrap svg { width: 118px; height: 118px; flex: 0 0 auto; }
+  .donut-legend { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .dl-row { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text); }
+  .dl-chip { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
+  .dl-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dl-pct { font-weight: 800; color: var(--primary); }
+
   .result-title {
     font-size: 24px;
     font-weight: 900;
@@ -644,6 +666,14 @@
       <div class="result-title" id="result-title"></div>
       <div class="rare-badge" id="rare-badge" hidden>Nadir rol — az kişide çıkıyor!</div>
       <p class="result-desc" id="result-desc"></p>
+    </div>
+
+    <div class="donut-card">
+      <h3>İlk 3 rolün puan payları</h3>
+      <div class="donut-wrap">
+        <svg id="donut" viewBox="0 0 120 120" role="img" aria-label="İlk 3 rolün puan dağılımı"></svg>
+        <div class="donut-legend" id="donut-legend"></div>
+      </div>
     </div>
 
     <div class="share-grid">
@@ -1087,9 +1117,73 @@ function buildPodium(ranked) {
   });
 }
 
+// Halka grafiği: ilk 3 rolün puan payları (renkler CVD/kontrast doğrulamasından geçti)
+const DONUT_COLORS = ["#42549c", "#7183c7", "#8c9ff2"];
+const SVG_NS = "http://www.w3.org/2000/svg";
+
+function buildDonut(top3, scores) {
+  const svg = $("donut");
+  const legend = $("donut-legend");
+  svg.innerHTML = "";
+  legend.innerHTML = "";
+
+  const sum = top3.reduce((a, r) => a + scores[r], 0);
+  const pcts = top3.map(r => Math.round(scores[r] / sum * 100));
+  pcts[0] = 100 - pcts.slice(1).reduce((a, b) => a + b, 0); // toplam tam 100 olsun
+
+  const R = 48, C = 2 * Math.PI * R, GAP = 3;
+  let offset = 0;
+
+  top3.forEach((rid, i) => {
+    const frac = scores[rid] / sum;
+    const len = Math.max(frac * C - GAP, 2);
+
+    const seg = document.createElementNS(SVG_NS, "circle");
+    seg.setAttribute("cx", 60); seg.setAttribute("cy", 60); seg.setAttribute("r", R);
+    seg.setAttribute("fill", "none");
+    seg.setAttribute("stroke", DONUT_COLORS[i]);
+    seg.setAttribute("stroke-width", 16);
+    seg.setAttribute("transform", "rotate(-90 60 60)");
+    seg.style.strokeDasharray = `0 ${C}`;
+    seg.style.strokeDashoffset = -(offset + GAP / 2);
+    // Podyumla aynı tempo: önce 3. dilim, en son 1. dilim çizilir
+    seg.style.transition = `stroke-dasharray .8s cubic-bezier(.22,1,.36,1) ${1.5 - i * .6}s`;
+    svg.appendChild(seg);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      seg.style.strokeDasharray = `${len} ${C - len}`;
+    }));
+    offset += frac * C;
+
+    const row = document.createElement("div");
+    row.className = "dl-row";
+    row.innerHTML =
+      `<span class="dl-chip" style="background:${DONUT_COLORS[i]}"></span>` +
+      `<span class="dl-name">${i + 1}. ${ROLES[rid].short}</span>` +
+      `<span class="dl-pct">%${pcts[i]}</span>`;
+    legend.appendChild(row);
+  });
+
+  // Ortada kazananın payı
+  const big = document.createElementNS(SVG_NS, "text");
+  big.setAttribute("x", 60); big.setAttribute("y", 58);
+  big.setAttribute("text-anchor", "middle");
+  big.setAttribute("font-size", 20); big.setAttribute("font-weight", 800);
+  big.setAttribute("fill", "#42549c");
+  big.textContent = `%${pcts[0]}`;
+  svg.appendChild(big);
+
+  const small = document.createElementNS(SVG_NS, "text");
+  small.setAttribute("x", 60); small.setAttribute("y", 74);
+  small.setAttribute("text-anchor", "middle");
+  small.setAttribute("font-size", 9);
+  small.setAttribute("fill", "#6d7290");
+  small.textContent = "1. rolün payı";
+  svg.appendChild(small);
+}
+
 function finishQuiz() {
   $("progress-fill").style.width = "100%";
-  const { winner, ranked } = computeResult();
+  const { winner, ranked, scores } = computeResult();
   resultRoleId = winner;
   const role = ROLES[winner];
 
@@ -1104,6 +1198,7 @@ function finishQuiz() {
   img.onload = () => { avatarImg = img; };
 
   buildPodium(ranked);
+  buildDonut(ranked.slice(0, 3), scores);
   showScreen("result");
   // Konfeti, 1.'nin podyuma çıktığı anda patlasın
   setTimeout(launchConfetti, 1750);
