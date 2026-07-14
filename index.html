@@ -490,9 +490,9 @@
   .donut-wrap { display: flex; align-items: center; gap: 18px; }
   .donut-wrap svg { width: 118px; height: 118px; flex: 0 0 auto; }
   .donut-legend { flex: 1; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
-  .dl-row { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text); }
-  .dl-chip { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
-  .dl-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .dl-row { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; font-weight: 700; color: var(--text); }
+  .dl-chip { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; margin-top: 2px; }
+  .dl-name { flex: 1; line-height: 1.35; }
   .dl-pct { font-weight: 800; color: var(--primary); }
 
   .result-title {
@@ -1158,7 +1158,7 @@ function buildDonut(top3, scores) {
     row.className = "dl-row";
     row.innerHTML =
       `<span class="dl-chip" style="background:${DONUT_COLORS[i]}"></span>` +
-      `<span class="dl-name">${i + 1}. ${ROLES[rid].short}</span>` +
+      `<span class="dl-name">${i + 1}. ${ROLES[rid].title}</span>` +
       `<span class="dl-pct">%${pcts[i]}</span>`;
     legend.appendChild(row);
   });
