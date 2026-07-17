@@ -1107,12 +1107,21 @@ $("btn-back").addEventListener("click", () => {
 });
 
 /* ---------- Scoring ---------- */
+/* Denge ağırlıkları: roller şıklara eşit sayıda dağılmadığı için (kimi 6,
+   kimi 4 şıkta geçiyor) az geçen rolün her puanı orantılı olarak daha
+   değerli sayılır — böylece her rolün ulaşabileceği tavan puan eşitlenir. */
+const ROLE_COUNTS = {};
+QUESTIONS.forEach(q => q.options.forEach(o => o.roles.forEach(r => {
+  ROLE_COUNTS[r] = (ROLE_COUNTS[r] || 0) + 1;
+})));
+const MAX_ROLE_COUNT = Math.max(...Object.values(ROLE_COUNTS));
+
 function computeResult() {
   const scores = {};
   const lastGain = {}; // beraberlik: sonraki sorularda puan alan rol kazanır
   answers.forEach((optIdx, qIdx) => {
     QUESTIONS[qIdx].options[optIdx].roles.forEach(r => {
-      scores[r] = (scores[r] || 0) + 1;
+      scores[r] = (scores[r] || 0) + MAX_ROLE_COUNT / ROLE_COUNTS[r];
       lastGain[r] = qIdx;
     });
   });
