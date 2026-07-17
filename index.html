@@ -1193,8 +1193,17 @@ function buildDonut(top3, scores) {
   legend.innerHTML = "";
 
   const sum = top3.reduce((a, r) => a + scores[r], 0);
-  const pcts = top3.map(r => Math.round(scores[r] / sum * 100));
-  pcts[0] = 100 - pcts.slice(1).reduce((a, b) => a + b, 0); // toplam tam 100 olsun
+  /* Yüzdeleri 100'e tamamlarken sıralamayı asla bozmayan yöntem:
+     önce aşağı yuvarla, kalan puanları en büyük küsurattan başlayarak
+     dağıt; küsurat eşitse üst sıradaki rol alsın. */
+  const raw = top3.map(r => scores[r] / sum * 100);
+  const pcts = raw.map(Math.floor);
+  let rest = 100 - pcts.reduce((a, b) => a + b, 0);
+  raw
+    .map((v, i) => [v - Math.floor(v), i])
+    .sort((a, b) => b[0] - a[0] || a[1] - b[1])
+    .slice(0, rest)
+    .forEach(([, i]) => pcts[i]++);
 
   const R = 48, C = 2 * Math.PI * R, GAP = 3;
   let offset = 0;
