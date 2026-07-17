@@ -3,16 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#4457A3">
+<meta name="theme-color" content="#543787">
 <title>BGM'deki Yerin</title>
 <meta name="description" content="Başkent Gençlik Meclisi'nin 'BGM'deki Yerin' oyunuyla meclisteki rolünü keşfet!">
 <link rel="icon" type="image/jpeg" href="avatars/bgm_logo.jpeg">
 <style>
   :root {
-    --bg: #f0ebf8;
-    --primary: #4457A3;
-    --primary-dark: #35447f;
-    --primary-light: #6b7cc4;
+    --bg: #D4E0F0;
+    --primary: #543787;
+    --primary-dark: #432c6c;
+    --primary-light: #8a6cb4;
+    --accent: #FEB737;
+    --accent-dark: #e5a324;
     --white: #ffffff;
     --text: #2b2f45;
     --muted: #6d7290;
@@ -56,7 +58,7 @@
     border-radius: 50%;
     object-fit: cover;
     border: 4px solid var(--white);
-    box-shadow: 0 10px 26px rgba(68, 87, 163, .30);
+    box-shadow: 0 10px 26px rgba(84, 55, 135, .30);
     margin-bottom: 14px;
   }
 
@@ -86,7 +88,7 @@
     background: var(--white);
     border-radius: 20px;
     padding: 16px;
-    box-shadow: 0 8px 28px rgba(68, 87, 163, .12);
+    box-shadow: 0 8px 28px rgba(84, 55, 135, .12);
     margin-bottom: 18px;
     text-align: left;
   }
@@ -105,7 +107,7 @@
   .chat-head .online-dot {
     width: 9px; height: 9px;
     border-radius: 50%;
-    background: #3ec46d;
+    background: #C7D86F;
     flex: 0 0 auto;
   }
   .chat-head .typing-note {
@@ -166,7 +168,7 @@
     background: rgba(255, 255, 255, .9);
     animation: blink 1.2s infinite;
   }
-  .dots.dots-dark span { background: rgba(68, 87, 163, .55); }
+  .dots.dots-dark span { background: rgba(84, 55, 135, .55); }
   .dots span:nth-child(2) { animation-delay: .2s; }
   .dots span:nth-child(3) { animation-delay: .4s; }
   @keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
@@ -198,14 +200,14 @@
     font-weight: 800;
     padding: 8px 14px;
     border-radius: 999px;
-    box-shadow: 0 4px 12px rgba(68, 87, 163, .12);
+    box-shadow: 0 4px 12px rgba(84, 55, 135, .12);
   }
 
   .btn-primary {
     display: block;
     width: 100%;
-    background: var(--primary);
-    color: var(--white);
+    background: var(--accent);
+    color: var(--primary);
     border: none;
     font-size: 18px;
     font-weight: 800;
@@ -213,10 +215,10 @@
     padding: 17px 20px;
     border-radius: 16px;
     cursor: pointer;
-    box-shadow: 0 10px 24px rgba(68, 87, 163, .35);
+    box-shadow: 0 10px 24px rgba(84, 55, 135, .35);
     transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
   }
-  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
   .btn-primary:active { transform: translateY(0) scale(.98); }
 
   /* Uzun tanıtım metninde kaydırırken buton hep görünür kalsın (mobil) */
@@ -254,7 +256,7 @@
 
   .progress-track {
     height: 10px;
-    background: rgba(68, 87, 163, .15);
+    background: rgba(84, 55, 135, .15);
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 22px;
@@ -262,7 +264,7 @@
   .progress-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    background: linear-gradient(90deg, var(--accent), var(--accent-dark));
     border-radius: 999px;
     transition: width .4s cubic-bezier(.22, 1, .36, 1);
   }
@@ -289,7 +291,7 @@
     max-width: 92%;
     text-align: left;
     background: var(--white);
-    border: 2px solid rgba(68, 87, 163, .25);
+    border: 2px solid rgba(84, 55, 135, .25);
     border-radius: 16px 16px 4px 16px;
     padding: 12px 15px;
     font-size: 14.5px;
@@ -297,7 +299,7 @@
     color: var(--text);
     cursor: pointer;
     font-family: inherit;
-    box-shadow: 0 3px 10px rgba(68, 87, 163, .08);
+    box-shadow: 0 3px 10px rgba(84, 55, 135, .08);
     transition: border-color .15s ease, transform .15s ease, background .15s ease;
     opacity: 0;
     animation: msgIn .35s cubic-bezier(.22, 1, .36, 1) forwards;
@@ -350,7 +352,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(68, 87, 163, .18);
+    box-shadow: 0 4px 12px rgba(84, 55, 135, .18);
     transition: transform .15s ease;
   }
   .btn-sound:active { transform: scale(.92); }
@@ -382,7 +384,7 @@
     border-radius: 24px;
     padding: 30px 22px 26px;
     text-align: center;
-    box-shadow: 0 12px 36px rgba(68, 87, 163, .16);
+    box-shadow: 0 12px 36px rgba(84, 55, 135, .16);
     margin-bottom: 16px;
   }
 
@@ -440,7 +442,7 @@
     font-size: 42px;
     overflow: hidden;
     border: 3px solid #c0c7d1;
-    box-shadow: 0 6px 16px rgba(68, 87, 163, .22);
+    box-shadow: 0 6px 16px rgba(84, 55, 135, .22);
   }
   .podium-spot.first { position: relative; z-index: 2; }
   .podium-spot.first .p-avatar { width: 120px; height: 120px; font-size: 56px; border-color: #f0c24b; }
@@ -504,7 +506,7 @@
   }
   .podium-spot.first .p-block { height: 92px; background: var(--primary); }
   .podium-spot.second .p-block { height: 64px; background: var(--primary-light); }
-  .podium-spot.third .p-block { height: 48px; background: #93a0d6; }
+  .podium-spot.third .p-block { height: 48px; background: #ab93d2; }
 
   @media (prefers-reduced-motion: reduce) {
     .podium-spot { opacity: 1; transform: none; animation: none; }
@@ -515,7 +517,7 @@
     background: var(--white);
     border-radius: 20px;
     padding: 18px 20px;
-    box-shadow: 0 8px 24px rgba(68, 87, 163, .12);
+    box-shadow: 0 8px 24px rgba(84, 55, 135, .12);
     margin-bottom: 16px;
   }
   .donut-card h3 {
@@ -625,21 +627,21 @@
         <span class="typing-note">3 kişi yazıyor…</span>
       </div>
       <div class="msg m1">
-        <span class="pp" style="background:#e2725b">E</span>
+        <span class="pp" style="background:#3B5EA6">E</span>
         <div>
           <div class="name">Elif</div>
           <div class="bubble">yarınki etkinlik için playlist hazır 🎧</div>
         </div>
       </div>
       <div class="msg m2">
-        <span class="pp" style="background:#5b8def">M</span>
+        <span class="pp" style="background:#7CB8C0">M</span>
         <div>
           <div class="name">Mert</div>
           <div class="bubble">atıştırmalıklar benden 🍿</div>
         </div>
       </div>
       <div class="msg m3">
-        <span class="pp" style="background:#9b59b6">Z</span>
+        <span class="pp" style="background:#543787">Z</span>
         <div>
           <div class="name">Zeynep</div>
           <div class="bubble">ben kamera getireceğim, en iyi anları çekerim 📸</div>
@@ -935,9 +937,9 @@ function showScreen(name) {
 /* ---------- Quiz flow ---------- */
 // Soruları soran arkadaşlar (açılıştaki sohbetle aynı kişiler)
 const SENDERS = [
-  { name: "Elif",   initial: "E", color: "#e2725b" },
-  { name: "Mert",   initial: "M", color: "#5b8def" },
-  { name: "Zeynep", initial: "Z", color: "#9b59b6" }
+  { name: "Elif",   initial: "E", color: "#3B5EA6" },
+  { name: "Mert",   initial: "M", color: "#7CB8C0" },
+  { name: "Zeynep", initial: "Z", color: "#543787" }
 ];
 
 let typingTimer = null;
@@ -1028,7 +1030,7 @@ function playJuryMoment() {
 
 function launchConfetti() {
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const colors = ["#4457A3", "#6b7cc4", "#e2725b", "#9b59b6", "#5b8def", "#ffffff"];
+  const colors = ["#543787", "#FEB737", "#7CB8C0", "#C7D86F", "#A7B5FE", "#ffffff"];
   const box = document.createElement("div");
   box.className = "confetti";
   for (let i = 0; i < 70; i++) {
@@ -1242,7 +1244,7 @@ function buildDonut(top3, scores) {
   big.setAttribute("x", 60); big.setAttribute("y", 58);
   big.setAttribute("text-anchor", "middle");
   big.setAttribute("font-size", 20); big.setAttribute("font-weight", 800);
-  big.setAttribute("fill", "#42549c");
+  big.setAttribute("fill", "#543787");
   big.textContent = `%${pcts[0]}`;
   svg.appendChild(big);
 
@@ -1366,8 +1368,8 @@ function drawCard(withPhoto) {
 
   // Arka plan
   const bg = ctx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, "#4457A3");
-  bg.addColorStop(1, "#2c3a75");
+  bg.addColorStop(0, "#543787");
+  bg.addColorStop(1, "#3a2664");
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
@@ -1393,14 +1395,14 @@ function drawCard(withPhoto) {
     ctx.restore();
   } else {
     ctx.beginPath(); ctx.arc(lx, ly, lr, 0, Math.PI * 2);
-    ctx.fillStyle = "#f0ebf8"; ctx.fill();
-    ctx.fillStyle = "#4457A3";
+    ctx.fillStyle = "#D4E0F0"; ctx.fill();
+    ctx.fillStyle = "#543787";
     ctx.font = "800 56px -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
     ctx.fillText("BGM", lx, ly + 20);
   }
 
   // Başlık
-  ctx.fillStyle = "#f0ebf8";
+  ctx.fillStyle = "#D4E0F0";
   ctx.font = "700 40px -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
   ctx.fillText("BAŞKENT GENÇLİK MECLİSİ", W / 2, 385);
   ctx.font = "800 52px -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
@@ -1423,13 +1425,13 @@ function drawCard(withPhoto) {
     ctx.restore();
   } else {
     ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2);
-    ctx.fillStyle = "#f0ebf8"; ctx.fill();
+    ctx.fillStyle = "#D4E0F0"; ctx.fill();
     ctx.font = "200px -apple-system, 'Segoe UI', 'Noto Color Emoji', sans-serif";
     ctx.fillText(role.emoji, cx, cy + 72);
   }
 
   // Unvan
-  ctx.fillStyle = "#f0ebf8";
+  ctx.fillStyle = "#D4E0F0";
   ctx.font = "700 38px -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
   ctx.fillText("MECLİSTEKİ ROLÜM", W / 2, 1060);
 
@@ -1454,7 +1456,7 @@ function drawCard(withPhoto) {
   ctx.fillStyle = "#ffffff";
   ctx.font = "800 42px -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
   ctx.fillText("Sen de rolünü öğren!", W / 2, H - 200);
-  ctx.fillStyle = "#f0ebf8";
+  ctx.fillStyle = "#D4E0F0";
   const url = getSiteUrl().replace(/^https?:\/\//, "");
   let fontSize = 36;
   do {
