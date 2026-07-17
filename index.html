@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#4457A3">
-<title>BGM Oryantasyon Oyunu</title>
-<meta name="description" content="Başkent Gençlik Meclisi'nin Oryantasyon Oyunu ile meclisteki rolünü keşfet!">
+<title>BGM'deki Yerin</title>
+<meta name="description" content="Başkent Gençlik Meclisi'nin 'BGM'deki Yerin' oyunuyla meclisteki rolünü keşfet!">
 <link rel="icon" type="image/jpeg" href="avatars/bgm_logo.jpeg">
 <style>
   :root {
@@ -617,7 +617,7 @@
       <img src="avatars/bgm_logo.jpeg" alt="Başkent Gençlik Meclisi" class="intro-logo" onerror="this.style.display='none'"><br>
       <span class="logo-badge">BAŞKENT GENÇLİK MECLİSİ</span>
     </div>
-    <h1 style="text-align:center">Oryantasyon Oyunu</h1>
+    <h1 style="text-align:center">BGM'deki Yerin</h1>
 
     <div class="chat-card">
       <div class="chat-head">
@@ -724,7 +724,7 @@
     <button type="button" class="btn-restart" id="btn-restart">Tekrar Oyna</button>
   </section>
 
-  <footer>Başkent Gençlik Meclisi · Oryantasyon Oyunu</footer>
+  <footer>Başkent Gençlik Meclisi · BGM'deki Yerin</footer>
 </div>
 
 <div class="lightbox" id="lightbox" hidden>
@@ -1172,8 +1172,9 @@ function buildPodium(ranked) {
   });
 }
 
-// Halka grafiği: ilk 3 rolün puan payları (renkler CVD/kontrast doğrulamasından geçti)
-const DONUT_COLORS = ["#42549c", "#7183c7", "#8c9ff2"];
+// Halka grafiği: ilk 3 rolün puan payları
+// (marka renkleri; CVD ve normal görüş ayrımı doğrulandı, kontrast etiketlerle destekleniyor)
+const DONUT_COLORS = ["#FEB737", "#7CB8C0", "#543787"];
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 function buildDonut(top3, scores) {
@@ -1266,7 +1267,7 @@ function getSiteUrl() {
 
 function getShareText() {
   const role = ROLES[resultRoleId];
-  return `BGM Oryantasyon Oyununu oynadım, meclisteki rolüm belli oldu: ${role.title}!\n\nSen de kendi rolünü öğren: ${getSiteUrl()}`;
+  return `"BGM'deki Yerin" oyununu oynadım, meclisteki rolüm belli oldu: ${role.title}!\n\nSen de kendi rolünü öğren: ${getSiteUrl()}`;
 }
 
 $("btn-whatsapp").addEventListener("click", () => {
@@ -1278,7 +1279,7 @@ $("btn-webshare").addEventListener("click", async () => {
   if (navigator.share) {
     try {
       await navigator.share({
-        title: "BGM Oryantasyon Oyunu",
+        title: "BGM'deki Yerin",
         text: `Meclisteki rolüm: ${role.title}! Sen de öğren:`,
         url: getSiteUrl()
       });
@@ -1386,7 +1387,7 @@ function drawCard(withPhoto) {
   ctx.fillText("BAŞKENT GENÇLİK MECLİSİ", W / 2, 385);
   ctx.font = "800 52px -apple-system, 'Segoe UI', Roboto, Arial, sans-serif";
   ctx.fillStyle = "#ffffff";
-  ctx.fillText("ORYANTASYON OYUNU", W / 2, 455);
+  ctx.fillText("BGM'DEKİ YERİN", W / 2, 455);
 
   // Avatar dairesi
   const cx = W / 2, cy = 740, r = 210;
@@ -1459,7 +1460,7 @@ $("btn-card").addEventListener("click", () => {
   }
   const a = document.createElement("a");
   a.href = dataUrl;
-  a.download = `bgm-oryantasyon-sonucum-${resultRoleId}.png`;
+  a.download = `bgmdeki-yerin-sonucum-${resultRoleId}.png`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

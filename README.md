@@ -1,4 +1,4 @@
-# BGM Oryantasyon Oyunu
+# BGM'deki Yerin
 
 Başkent Gençlik Meclisi'nin eğlenceli kişilik oyunu: 10 soruluk bir grup sohbetine katıl, cevaplarına göre meclisteki rolünü öğren, sonucunu arkadaşlarınla paylaş!
 
